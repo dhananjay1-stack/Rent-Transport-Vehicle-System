@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Goods Carrier{% endblock %}
+
+{% block content %}
+<h2>Delete Goods Carrier</h2>
+<p>Are you sure you want to delete this carrier: <strong>{{ goods_carrier.name }}</strong>?</p>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="{% url 'host_dashboard' %}" class="btn btn-secondary">Cancel</a>
+</form>
+
+<style>
+/* Center form on the page */
+body{
+    background-color: beige;
+}
+form {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fad29a;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header styling */
+h2 {
+    text-align: center;
+    color: #dc3545; /* Red color for danger action */
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Confirmation message */
+p {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: #333333;
+}
+
+/* Strong text for carrier name */
+p strong {
+    color: #dc3545;
+}
+
+/* Button styling */
+button, a {
+    display: inline-block;
+    width: 48%;
+    padding: 10px;
+    margin: 5px 1%;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* Delete button (danger) */
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Cancel button (secondary) */
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Ensure form is responsive */
+@media (max-width: 768px) {
+    form {
+        padding: 15px;
+    }
+
+    button, a {
+        width: 100%;
+        margin: 10px 0;
+    }
+}
+</style>
+
+{% endblock %}

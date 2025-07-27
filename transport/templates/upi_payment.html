@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* Body background */
+    body {
+        background-color: #e8fde8;
+        font-family: 'Arial', sans-serif;
+    }
+
+    /* Payment container styling */
+    .payment-container {
+        width: 50%;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: #bcfebc; /* Clean background */
+        border: 1mm ridge #30f404; /* Subtle border */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        text-align: center;
+        position: relative; /* For positioning shapes */
+    }
+
+    /* Decorative top-left square */
+    .shape-top-left {
+        position: absolute;
+        top: -30px;
+        left: -30px;
+        width: 80px;
+        height: 80px;
+        background: #30f404; /* Bright green */
+        opacity: 0.5; /* Transparent */
+    }
+
+    /* Decorative bottom-right square */
+    .shape-bottom-right {
+        position: absolute;
+        bottom: -30px;
+        right: -30px;
+        width: 80px;
+        height: 80px;
+        background: #007bff; /* Bright blue */
+        opacity: 0.4; /* Transparent */
+    }
+
+    /* Header styling */
+    h2 {
+        font-size: 26px;
+        color: #090909;
+        margin-bottom: 15px;
+    }
+
+    /* Paragraph text styling */
+    p {
+        font-size: 18px;
+        color: #1e1e1e;
+        margin: 15px 0;
+    }
+
+    /* UPI payment link styling */
+    a {
+        display: inline-block;
+        margin: 20px 0;
+        padding: 12px 24px;
+        background-color: #007bff; /* Bright blue background */
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        text-decoration: none;
+        border-radius: 5px; /* Rounded corners */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Button shadow */
+        transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+    }
+
+    a:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+    }
+
+    /* QR code image styling */
+    img {
+        margin: 20px 0;
+        max-width: 150px;
+        border: 1px solid #ddd; /* Light border around the QR code */
+        padding: 10px;
+        border-radius: 8px; /* Rounded corners for the QR code */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    }
+
+    /* Submit button styling */
+    button[type="submit"] {
+        margin-top: 20px;
+        padding: 14px 30px;
+        background-color: #28a745; /* Green background */
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px; /* Rounded corners */
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Button shadow */
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #218838; /* Darker green on hover */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+    }
+
+    /* Responsive design for smaller screens */
+    @media (max-width: 768px) {
+        .payment-container {
+            width: 90%;
+            padding: 20px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+
+        p {
+            font-size: 16px;
+        }
+
+        a, button[type="submit"] {
+            font-size: 16px;
+            padding: 10px 20px;
+        }
+
+        img {
+            max-width: 120px;
+        }
+    }
+</style>
+
+<div class="payment-container">
+    <!-- Decorative shapes -->
+    <div class="shape-top-left"></div>
+    <div class="shape-bottom-right"></div>
+
+    <h2>Complete Your Payment</h2>
+    <p>To complete the payment, use the following UPI link or scan the QR code:</p>
+
+    <a href="{{ upi_url }}">Pay via UPI</a>
+
+    <!-- Generate the QR code by calling the 'generate_upi_qr' URL -->
+    <img src="{% url 'generate_upi_qr' %}" alt="Scan to Pay">
+
+    <p>Once the payment is complete, click below:</p>
+    <form method="POST" action="{% url 'confirm_upi_payment' booking.id %}">
+        {% csrf_token %}
+        <button type="submit">I have Completed the Payment</button>
+    </form>
+</div>
+
+{% endblock %}

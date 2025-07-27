@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        /* Global styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fffdfd;
+            color: #000000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h2, h3 {
+            color: #0c0d0d;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        /* Logo */
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-img {
+            max-width: 150px;
+            height: auto;
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+        }
+
+        table th, table td {
+            border: 1px solid #000000;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #ef9f3d;
+            color: rgb(255, 255, 255);
+        }
+
+        /* Carrier card styles */
+        .carriers-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .carrier-card {
+            background-color: rgb(255, 214, 214);
+            border: 1px solid #0f0e0e;
+            border-radius: 8px;
+            border: 1mm ridge#f62727;
+            padding: 15px;
+            max-width: 250px;
+            text-align: center;
+        }
+
+        .carrier-photo {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .book-btn {
+            background-color: #09d21d;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .book-btn:hover {
+            background-color: #00b04c;
+        }
+
+        /* Feedback submission button */
+        .feedback-btn {
+            display: inline-block;
+            margin-top: 20px;
+            background-color: #4ab7ff;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .feedback-btn:hover {
+            background-color: #1c9cf1;
+        }
+        .logo-img {
+            max-width: 120px; /* Adjust the width as needed */
+            height: auto;
+            border-radius: 8px; /* Optional: to give a slight rounded corner */
+        }
+        
+    </style>
+
+<div class="container">
+    <!-- Logo -->
+    <div class="logo">
+        <img src="https://cdn3.vectorstock.com/i/1000x1000/29/72/truck-logo-design-template-vector-27222972.jpg" alt="Company Logo" class="logo-img">
+    </div>
+
+    <h2>Welcome, {{ user.username }}</h2>
+
+    <!-- Your Bookings Section -->
+    <h3>Your Bookings</h3>
+    {% if bookings %}
+        <table class="bookings-table">
+            <thead>
+                <tr>
+                    <th>Goods Carrier</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.goods_carrier.name }}</td>
+                        <td>{{ booking.date }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No bookings yet.</p>
+    {% endif %}
+
+    <!-- Available Carriers Section -->
+    <h3>Available Carriers</h3>
+    <div class="carriers-container">
+        {% for carrier in goods_carriers %}
+            <div class="carrier-card">
+                <h4>{{ carrier.name }}</h4>
+                {% if carrier.photo %}
+                    <img src="{{ carrier.photo.url }}" alt="{{ carrier.name }} photo" class="carrier-photo">
+                {% else %}
+                    <p>No image available for {{ carrier.name }}</p>
+                {% endif %}
+                <p>Rate: {{ carrier.rate_per_hour }} per hour</p>
+                <p>Location: {{ carrier.location }}</p>
+                <a href="{% url 'complete_booking' carrier.id %}" class="book-btn">Book</a>
+            </div>
+        {% empty %}
+            <p>No carriers available.</p>
+        {% endfor %}
+    </div>
+    <!-- Feedback Section -->
+    <h3>Feedbacks</h3>
+    {% if feedbacks %}
+        <table class="feedback-table">
+            <thead>
+                <tr>
+                    <th>Rating</th>
+                    <th>Comments</th>
+                    <th>Submitted by</th>
+                    <th>Submitted at</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for feedback in feedbacks %}
+                    <tr>
+                        <td>{{ feedback.rating }} / 5</td>
+                        <td>{{ feedback.comments }}</td>
+                        <td>{{ feedback.customer.username }}</td>
+                        <td>{{ feedback.submitted_at }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No feedbacks yet.</p>
+    {% endif %}
+
+    <!-- Feedback Submission Link -->
+    <a href="{% url 'feedback_page' %}" class="feedback-btn">Submit Feedback</a>
+</div>
+{% endblock %}

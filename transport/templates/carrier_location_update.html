@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>Carrier Location Sharing</title>
+</head>
+<body>
+    <h1>Carrier Location Sharing</h1>
+    <p>Updating your location every 5 seconds...</p>
+
+    <script>
+        // This script uses the browser's Geolocation API to get the carrier's location
+        setInterval(function() {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+
+                // Send the carrier's updated location to the server
+                fetch('/update-location/{{ goods_carrier.id }}/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}' // Include CSRF token if using Django
+                    },
+                    body: JSON.stringify({
+                        latitude: latitude,
+                        longitude: longitude
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Location updated:', data);
+                })
+                .catch(error => {
+                    console.error('Error updating location:', error);
+                });
+            });
+        }, 5000);  // Send location every 5 seconds
+    </script>
+</body>
+</html>

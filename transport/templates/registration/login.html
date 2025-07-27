@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% load static %}  <!-- Load static files -->
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">  <!-- Link to your external CSS file -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style>
+    body {
+        height: 100vh; /* Full viewport height */
+        width: 100vw; /* Full viewport width */
+        background-color: rgb(249, 227, 227); /* Light teal background */
+        display: flex;
+        justify-content: center;
+        align-items: center; /* Center content vertically */
+        margin: 0; /* Reset margins */
+    }
+
+    .box {
+        width: 100%;
+        max-width: 400px; /* Fixed maximum width */
+        padding: 25px;
+        border: 4mm ridge rgb(242, 4, 95); /* Decorative border */
+        background-color: rgb(254, 174, 174); /* Light yellow background for the box */
+        border-radius: 20px;
+        box-shadow: 0 0 10px rgba(16, 17, 16, 0.1);
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #0f1010; /* Blue color for the heading */
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #080808; /* Darker color for labels */
+    }
+
+    input {
+        margin-bottom: 15px;
+        padding: 10px; /* Increased padding */
+        border: 1px solid #a8a8a8;
+        border-radius: 6px;
+        width: 100%;
+        box-sizing: border-box;
+        transition: border-color 0.3s; /* Smooth transition for border color */
+    }
+
+    input:focus {
+        border-color: #f2440a; /* Change border color on focus */
+        box-shadow: 0 0 5px rgba(69, 252, 69, 0.5); /* Shadow effect on focus */
+    }
+
+    button {
+        padding: 10px; /* Increased padding */
+        background-color: #ff0000;
+        color: rgb(19, 19, 19);
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px; /* Larger text size */
+        transition: background-color 0.3s; /* Smooth transition for background color */
+    }
+
+    button:hover {
+        background-color: #3cf509; /* Darker shade on hover */
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    .footer a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .footer a:hover {
+        text-decoration: underline; /* Underline on hover */
+    }
+
+    /* Responsive Design */
+    @media (max-width: 500px) {
+        .box {
+            padding: 20px;
+            width: 90%; /* Make the box smaller on smaller screens */
+        }
+        h2 {
+            font-size: 24px; /* Make heading smaller on mobile */
+        }
+        input, button {
+            font-size: 14px; /* Adjust font size for inputs and buttons */
+        }
+    }
+</style>
+
+<div class="box">
+    <h2><i class="fas fa-user-lock"></i> Login</h2>
+    <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        <label for="email">Email:</label>
+        <input type="email" name="username" required>
+    
+        <label for="password">Password:</label>
+        <input type="password" name="password" required>
+    
+        <button type="submit">Login</button>
+    </form>
+    
+    <div class="footer">
+        <p>Don't have an account? <a href="{% url 'register' %}">Sign up</a></p>
+        <p><a href="{% url 'password_reset' %}">Forgot password?</a></p>
+    </div>
+</div>
+{% endblock %}

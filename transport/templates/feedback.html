@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+
+{% block title %}Feedback{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: #d8ecfd;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    h2 {
+        text-align: center;
+        font-size: 32px;
+        color: #1b263b;
+        margin-bottom: 30px;
+        font-weight: bold;
+    }
+
+    /* Form container styling */
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #fff1aa;
+        padding: 30px;
+        border-radius: 15px;
+        border: 2mm ridge #eefa02c2;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+
+    /* Form input styling */
+    .form-container input,
+    .form-container select,
+    .form-container textarea {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        background-color: #f9f9f9;
+        font-size: 16px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .form-container input:focus,
+    .form-container select:focus,
+    .form-container textarea:focus {
+        border-color: #02baae;
+        box-shadow: 0 0 5px rgba(2, 186, 174, 0.5);
+        outline: none;
+    }
+
+    .form-container button {
+        background-color: #35e116;
+        color: #ffffff;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .form-container button:hover {
+        background-color: #01a725d2;
+    }
+
+    /* Custom design shapes - bubbles */
+    .bubble {
+        position: absolute;
+        background: rgba(2, 186, 174, 0.2);
+        border-radius: 50%;
+        z-index: -1;
+        animation: float 6s infinite ease-in-out;
+    }
+
+    .bubble-small {
+        width: 60px;
+        height: 60px;
+    }
+
+    .bubble-medium {
+        width: 100px;
+        height: 100px;
+    }
+
+    .bubble-large {
+        width: 140px;
+        height: 140px;
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-20px);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+
+    /* Placing bubbles around the form */
+    .bubble1 {
+        top: -40px;
+        left: -30px;
+    }
+
+    .bubble2 {
+        bottom: -50px;
+        right: -40px;
+    }
+
+    .bubble3 {
+        top: 60%;
+        left: 80%;
+    }
+
+    .bubble4 {
+        top: 80%;
+        right: 10%;
+    }
+
+    .bubble5 {
+        top: 40%;
+        left: 5%;
+    }
+
+    /* Small screen adjustments */
+    @media (max-width: 768px) {
+        body {
+            padding: 10px;
+        }
+
+        .form-container {
+            padding: 20px;
+        }
+    }
+</style>
+
+<h2>Submit Your Feedback</h2>
+<form method="POST">
+    {% csrf_token %}
+    
+    <!-- Carrier selection dropdown -->
+    <div class="mb-3">
+        <label for="carrier" class="form-label">Select Carrier</label>
+        <select class="form-control" id="carrier" name="carrier" required>
+            <option value="" disabled selected>Select a carrier</option>
+            {% for carrier in carriers %}
+                <option value="{{ carrier.id }}">{{ carrier.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Rating input -->
+    <div class="mb-3">
+        <label for="rating" class="form-label">Rating</label>
+        <select class="form-control" id="rating" name="rating" required>
+            <option value="5">Excellent</option>
+            <option value="4">Very Good</option>
+            <option value="3">Good</option>
+            <option value="2">Fair</option>
+            <option value="1">Poor</option>
+        </select>
+    </div>
+    
+    <!-- Comments input -->
+    <div class="mb-3">
+        <label for="comments" class="form-label">Comments</label>
+        <textarea class="form-control" id="comments" name="comments" rows="4" required></textarea>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary">Submit Feedback</button>
+</form>
+
+
+
+<!-- Bubbles for background design -->
+<div class="bubble bubble-large bubble1"></div>
+<div class="bubble bubble-medium bubble2"></div>
+<div class="bubble bubble-small bubble3"></div>
+<div class="bubble bubble-medium bubble4"></div>
+<div class="bubble bubble-small bubble5"></div>
+
+{% endblock %}
+

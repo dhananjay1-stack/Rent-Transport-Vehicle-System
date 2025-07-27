@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* Body background */
+    body {
+        background-color: rgb(205, 254, 250);
+        font-family: 'Arial', sans-serif;
+    }
+
+    /* Main confirmation container */
+    .confirmation-container {
+        width: 60%;
+        margin: 40px auto;
+        padding: 30px;
+        background: linear-gradient(145deg, #75f6f4, #a9fcfb); /* Soft gradient background */
+        border: 2mm ridge #4bf4f1; /* Stylish border */
+        border-radius: 12px; /* Rounded corners */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Drop shadow */
+        position: relative;
+        transition: transform 0.3s ease; /* Hover effect for slight scaling */
+        overflow: hidden;
+    }
+
+    /* Decorative top-right shape */
+    .shape-top {
+        position: absolute;
+        top: -30px;
+        right: -30px;
+        width: 150px;
+        height: 150px;
+        background: #4CAF50;
+        border-radius: 50%;
+        opacity: 0.5; /* Transparent circular shape */
+    }
+
+    /* Decorative bottom-left shape */
+    .shape-bottom {
+        position: absolute;
+        bottom: -40px;
+        left: -40px;
+        width: 100px;
+        height: 100px;
+        background: #2196F3;
+        border-radius: 50%;
+        opacity: 0.4; /* Larger circular shape */
+    }
+
+    /* Centered confirmation checkmark logo */
+    .confirmation-logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    /* Styling for the checkmark image */
+    .confirmation-logo img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%; /* Circular border for the logo */
+        background-color: transparent; /* Ensure background is transparent */
+        border: 4px solid #4CAF50; /* Add a border around the logo */
+        padding: 10px; /* Space inside the border */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow around logo */
+    }
+
+    /* Header text styling */
+    h2 {
+        text-align: center;
+        color: #1c1b1b;
+        font-size: 26px;
+        margin-bottom: 25px;
+    }
+
+    /* Details text styling */
+    .confirmation-details p {
+        font-size: 18px;
+        color: #2f2e2e;
+        margin: 12px 0;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /* Bold labels for booking details */
+    .label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    /* Highlighted 'Thank you' message */
+    .thanks {
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        color: #ffffff;
+        background-color: #29dc52; /* Green background */
+        padding: 15px;
+        border-radius: 8px; /* Rounded corners for the message */
+        margin-top: 25px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow */
+    }
+
+    /* Responsive design for smaller screens */
+    @media (max-width: 768px) {
+        .confirmation-container {
+            width: 90%;
+            padding: 20px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+
+        .confirmation-details p {
+            font-size: 16px;
+        }
+
+        .thanks {
+            font-size: 20px;
+        }
+    }
+</style>
+
+<div class="confirmation-container">
+    <!-- Decorative shapes for top and bottom -->
+    <div class="shape-top"></div>
+    <div class="shape-bottom"></div>
+
+    <!-- Logo at the top for confirmation checkmark -->
+    <div class="confirmation-logo">
+        <!-- Transparent background logo -->
+        <img src="https://png.pngtree.com/png-vector/20191113/ourmid/pngtree-green-check-mark-icon-flat-style-png-image_1986021.jpg" alt="confirmation">
+    </div>
+
+    <h2>Booking Confirmation</h2>
+
+    <!-- Booking details -->
+    <div class="confirmation-details">
+        <p><span class="label">Pickup Location:</span> {{ booking.pickup_location }}</p>
+        <p><span class="label">Dropoff Location:</span> {{ booking.dropoff_location }}</p>
+        <p><span class="label">Total Hours:</span> {{ booking.total_hours }}</p>
+        <p><span class="label">Total Cost:</span> ₹{{ booking.total_cost }}</p>
+        <p><span class="label">Payment Method:</span> {{ booking.payment_method }}</p>
+        <p><span class="label">Payment Status:</span> {{ booking.payment_status }}</p>
+        <!-- Highlighted thank you message -->
+        <p class="thanks">Thank you for using our service!</p>
+    </div>
+</div>
+{% endblock %}

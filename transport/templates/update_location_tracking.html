@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrier Location Tracking</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script> <!-- Add your Google Maps API Key here -->
+    <script>
+        var map;
+        var marker;
+
+        function initMap() {
+            // Initialize the map with a default location
+            var initialLocation = {lat: 0, lng: 0}; // Default center of the map
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: initialLocation
+            });
+
+            // Initialize marker at the initial position
+            marker = new google.maps.Marker({
+                position: initialLocation,
+                map: map,
+                title: "Carrier's Location"
+            });
+
+            // Poll the server every 5 seconds to get the updated location
+            setInterval(updateCarrierLocation, 5000); // Every 5 seconds
+        }
+
+        function updateCarrierLocation() {
+            fetch(`/track-carrier/{{ goods_carrier.id }}/`)
+                .then(response => response.json())
+                .then(data => {
+                    // Extract latitude and longitude from the server response
+                    var updatedLat = data.latitude;
+                    var updatedLng = data.longitude;
+
+                    // Update marker position
+                    var updatedLocation = new google.maps.LatLng(updatedLat, updatedLng);
+                    marker.setPosition(updatedLocation);
+                    map.setCenter(updatedLocation);
+                })
+                .catch(error => console.error('Error fetching location:', error));
+        }
+    </script>
+</head>
+<body onload="initMap()">
+    <h1>Carrier Location Tracking</h1>
+    <div id="map" style="height: 500px; width: 100%;"></div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* Body background */
+    body {
+        background-color: rgb(246, 255, 203);
+        font-family: 'Arial', sans-serif;
+    }
+
+    /* Form container styling */
+    .booking-form-container {
+        width: 60%;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: #f8ef86; /* Soft gradient background */
+        border: 2mm ridge #a3b816; /* Stylish border */
+        border-radius: 12px; /* Rounded corners */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Drop shadow */
+        position: relative;
+        transition: transform 0.3s ease; /* Hover effect for slight scaling */
+        overflow: hidden;
+    }
+
+    /* Input field and label styling */
+    label {
+        font-size: 18px;
+        font-weight: bold;
+        color: #1c1b1b;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="time"],
+    select {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0 20px 0;
+        border-radius: 8px;
+        border: 1px solid #dad6d6;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        font-size: 16px;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    input[type="time"]:focus,
+    select:focus {
+        border-color: #d9f601;
+        outline: none;
+        box-shadow: 0 0 8px rgba(75, 244, 241, 0.5);
+    }
+
+    /* Button styling */
+    button[type="submit"] {
+        width: 100%;
+        padding: 14px;
+        background-color: #29dc52; /* Green background */
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #22b843; /* Darker green on hover */
+    }
+
+    /* Responsive design for smaller screens */
+    @media (max-width: 768px) {
+        .booking-form-container {
+            width: 90%;
+            padding: 20px;
+        }
+
+        label {
+            font-size: 16px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="time"],
+        select {
+            font-size: 14px;
+        }
+
+        button[type="submit"] {
+            font-size: 16px;
+        }
+    }
+</style>
+
+<div class="booking-form-container">
+    <form method="POST" action="{% url 'complete_booking' carrier.id %}">
+        {% csrf_token %}
+
+        <!-- Pickup Location -->
+        <label for="pickup_location">Pickup Location:</label>
+        <input type="text" name="pickup_location" id="pickup_location" required>
+
+        <!-- Dropoff Location -->
+        <label for="dropoff_location">Dropoff Location:</label>
+        <input type="text" name="dropoff_location" id="dropoff_location">
+
+        <!-- Total Hours -->
+        <label for="total_hours">Total Hours:</label>
+        <input type="number" name="total_hours" id="total_hours" min="1" required>
+
+        <!-- Booking Time -->
+        <label for="time">Booking Time:</label>
+        <input type="time" name="time" id="time" required>
+
+        <!-- Payment Method -->
+        <label for="payment_method">Payment Method:</label>
+        <select name="payment_method" id="payment_method" required>
+            <option value="Cash">Cash on Delivery</option>
+            <option value="Online">Pay Online</option>
+        </select>
+
+        <!-- Submit Button -->
+        <button type="submit">Complete Booking</button>
+    </form>
+</div>
+{% endblock %}

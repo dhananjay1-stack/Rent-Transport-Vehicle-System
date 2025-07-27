@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #c9dcf7;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2, h3 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fcf4ea;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            border: 2mm ridge #00a9ec;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table thead {
+            background-color: #0461d4;
+            color: white;
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #221f1f;
+        }
+
+        table tbody tr:nth-child {
+            background-color: #ffffff;
+        }
+
+        table tbody tr:hover {
+            background-color: #fffbfb;
+        }
+
+        /* Action Buttons */
+        .action-link {
+            color: #ce2a11;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .action-link:hover {
+            text-decoration: underline;
+        }
+
+        .action-button {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .action-button a {
+            background-color: #008ae0;
+            color: rgb(255, 254, 254);
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .action-button a:hover {
+            background-color: #0069d2;
+        }
+
+        /* Icon Enhancements */
+        table td a {
+            display: inline-block;
+            padding: 5px;
+            transition: color 0.3s ease;
+        }
+
+        table td a:hover {
+            color: #ff0000;
+        }
+    </style>
+
+    <div class="container">
+        <h2>Welcome, {{ user.username }}</h2>
+        
+        <!-- Section for Goods Carriers -->
+        <h3>Your Carriers</h3>
+        <table class="carrier-table">
+            <thead>
+                <tr>
+                    <th>Carrier Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for carrier in goods_carriers %}
+                    <tr>
+                        <td>{{ carrier.name }}</td>
+                        <td>
+                            <a href="{% url 'update_goods_carrier' carrier.id %}" class="action-link">
+                                ✏️ Edit
+                            </a> 
+                            | 
+                            <a href="{% url 'delete_goods_carrier' carrier.id %}" class="action-link">
+                                ❌ Delete
+                            </a> 
+                            | 
+                            <a href="{% url 'track_carrier' carrier.id %}" class="action-link">
+                                📍 Track
+                            </a>
+
+                            <a href="{% url 'carrier_location_update' carrier.id %}" class="action-link">
+                                📍 Track
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="2">No carriers added yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="action-button">
+            <a href="{% url 'create_goods_carrier' %}">➕ Add New Carrier</a>
+        </div>
+
+        <!-- Section for Active Bookings -->
+        <h3>Active Bookings</h3>
+        <table class="booking-table">
+            <thead>
+                <tr>
+                    <th>Carrier Name</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.goods_carrier.name }}</td>
+                        <td>{{ booking.customer.username }}</td>
+                        <td>{{ booking.date }}</td>
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="3">No active bookings.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Section for Feedbacks -->
+        <h3>Feedbacks</h3>
+        <table class="feedback-table">
+            <thead>
+                <tr>
+                    <th>Rating</th>
+                    <th>Comments</th>
+                    <th>Submitted by</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for feedback in feedbacks %}
+                    <tr>
+                        <td>⭐ {{ feedback.rating }} / 5</td>
+                        <td>{{ feedback.comments }}</td>
+                        <td>{{ feedback.customer.username }}</td>
+                        <td>{{ feedback.submitted_at }}</td>
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="4">No feedbacks yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="action-button">
+            <a href="{% url 'feedback_page' %}">📝 Submit Feedback</a>
+        </div>
+    </div>
+{% endblock %}
